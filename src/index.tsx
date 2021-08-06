@@ -1,4 +1,4 @@
-import { requireNativeComponent, ViewStyle } from 'react-native';
+import { requireNativeComponent, ViewStyle } from "react-native"
 
 type ImageCropProps = {
   color: string;
@@ -6,7 +6,7 @@ type ImageCropProps = {
 };
 
 export const ImageCropViewManager = requireNativeComponent<ImageCropProps>(
-'ImageCropView'
-);
+    "ImageCropView"
+)
 
-export default ImageCropViewManager;
+export default ImageCropViewManager
