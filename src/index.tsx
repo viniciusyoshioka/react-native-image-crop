@@ -1,4 +1,4 @@
-import React, { createRef, PureComponent } from "react"
+import React, { useRef, Component } from "react"
 import { findNodeHandle, NativeSyntheticEvent, requireNativeComponent, StyleProp, UIManager, ViewStyle } from "react-native"
 
 
@@ -27,10 +27,10 @@ export type ImageCropProps = {
 }
 
 
-const ImageCropViewManager = requireNativeComponent("ImageCropView")
+const ImageCropViewManager = requireNativeComponent<ImageCropProps>("ImageCropView")
 
 
-export class ImageCrop extends PureComponent<ImageCropProps> {
+export class ImageCrop extends Component<ImageCropProps> {
 
 
     constructor(props: ImageCropProps) {
@@ -43,7 +43,7 @@ export class ImageCrop extends PureComponent<ImageCropProps> {
     }
 
 
-    private imageCropRef = createRef<ImageCrop>()
+    private imageCropRef = useRef(null)
 
 
     saveImage = () => {
