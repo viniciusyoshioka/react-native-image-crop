@@ -1,4 +1,4 @@
-import React, { useRef, Component } from "react"
+import React, { PureComponent, createRef } from "react"
 import { findNodeHandle, NativeSyntheticEvent, requireNativeComponent, StyleProp, UIManager, ViewStyle } from "react-native"
 
 
@@ -22,15 +22,15 @@ export type ImageCropProps = {
         width: number;
         height: number;
     };
-    onImageSaved?: (response: OnImageSavedResponse) => void;
-    onSaveImageError?: (response: string) => void;
+    onSaveImage?: (response: OnImageSavedResponse) => void;
+    onCropError?: (response: string) => void;
 }
 
 
-const ImageCropViewManager = requireNativeComponent<ImageCropProps>("ImageCropView")
+const ImageCropViewManager = requireNativeComponent("ImageCropView")
 
 
-export class ImageCrop extends Component<ImageCropProps> {
+export class ImageCrop extends PureComponent<ImageCropProps> {
 
 
     constructor(props: ImageCropProps) {
@@ -43,7 +43,8 @@ export class ImageCrop extends Component<ImageCropProps> {
     }
 
 
-    private imageCropRef = useRef(null)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private imageCropRef = createRef<any>()
 
 
     saveImage = () => {
@@ -56,7 +57,7 @@ export class ImageCrop extends Component<ImageCropProps> {
 
 
     render() {
-        const { style, sourceUrl, keepAspectRatio, aspectRatio, onImageSaved, onSaveImageError } = this.props
+        const { style, sourceUrl, keepAspectRatio, aspectRatio, onSaveImage, onCropError } = this.props
 
         return (
             <ImageCropViewManager
@@ -66,13 +67,13 @@ export class ImageCrop extends Component<ImageCropProps> {
                 keepAspectRatio={keepAspectRatio}
                 aspectRatio={aspectRatio}
                 onImageSaved={(event: NativeSyntheticEvent<OnImageSavedResponse>) => {
-                    if (onImageSaved) {
-                        onImageSaved(event.nativeEvent)
+                    if (onSaveImage) {
+                        onSaveImage(event.nativeEvent)
                     }
                 }}
                 onSaveImageError={(event: NativeSyntheticEvent<OnSaveImageErrorResponse>) => {
-                    if (onSaveImageError) {
-                        onSaveImageError(event.nativeEvent.message)
+                    if (onCropError) {
+                        onCropError(event.nativeEvent.message)
                     }
                 }}
             />
